@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: gz_raw_date
+    tables:
+        - name: raw_gz_sales
+  
