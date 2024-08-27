@@ -3,10 +3,50 @@ version: 2
 sources: 
   - name: raw
     schema: gz_raw_data
+    description: greenwez raw data source
     tables:
         - name: sales
           identifier: raw_gz_sales
+          description: sales of greenwez
+          columns:
+            - name: date_date
+              description: fecha
+            - name: orders_id
+              description: n° de orden primary key
+            - name: products_id
+              description: n° de producto
+            - name: revenue
+              description: ingresos generados
+            - name: quantity
+              description: n° de cantidad
+          freshness:
+            warn_after: { count: 90, period: day }
+          loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+          
         - name: product
           identifier: raw_gz_product
+          description: product of greenwez
+          columns:
+            - name: products_id
+              description: n° de producto primary key
+              tests:
+                - unique
+                - not_null
+            - name: purchase_price
+              description: precio de compra
         - name: ship
           identifier: raw_gz_ship
+          description: ship of greenwez
+          columns:
+            - name: orders_id
+              description: n° de orden primary key
+              tests:
+                - unique
+                - not_null
+            - name: shipping_fee
+              description: tarifa del envio
+            - name: logcost
+              description: costo de registro
+            - name: ship_cost
+              description: costo de embarque
+      
