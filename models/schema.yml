@@ -1,0 +1,121 @@
+version: 2
+
+sources: 
+  - name: raw
+    schema: gz_raw_data
+    description: greenwez raw data source
+    tables:
+        - name: sales
+          identifier: raw_gz_sales
+          description: sales of greenwez
+          columns:
+            - name: date_date
+              description: fecha
+            - name: orders_id
+              description: n° de orden primary key
+            - name: products_id
+              description: n° de producto
+            - name: revenue
+              description: ingresos generados
+            - name: quantity
+              description: n° de cantidad
+          freshness:
+            warn_after: { count: 90, period: day }
+          loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+          
+        - name: product
+          identifier: raw_gz_product
+          description: product of greenwez
+          columns:
+            - name: products_id
+              description: n° de producto primary key
+              tests:
+                - unique
+                - not_null
+            - name: purchase_price
+              description: precio de compra
+        - name: ship
+          identifier: raw_gz_ship
+          description: ship of greenwez
+          columns:
+            - name: orders_id
+              description: n° de orden primary key
+              tests:
+                - unique
+                - not_null
+            - name: shipping_fee
+              description: tarifa del envio
+            - name: logcost
+              description: costo de registro
+            - name: ship_cost
+              description: costo de embarque
+
+models:
+  - name: int_sales_margin
+    tests:
+      - unique:
+          column_name: "(orders_id || '-' || products_id)"
+      - not_null:
+          column_name: orders_id
+      - not_null:
+          column_name: products_id
+      - not_null:
+          column_name: margin
+      - not_null:
+          column_name: purchase_cost
+      - not_null:
+          column_name: date_date
+      - not_null:
+          column_name: revenue
+      - not_null:
+          column_name: quantity
+  - name: int_orders_margin
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name: orders_id 
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: purchase_cost 
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: quantity 
+  - name: int_orders_operational
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name: orders_id 
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: purchase_cost 
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: quantity 
+      - not_null:
+          column_name: operational_margin
+  - name: finance_days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: nb_transactions 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: average_basket
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: operational_margin
