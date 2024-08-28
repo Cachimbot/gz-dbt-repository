@@ -50,3 +50,72 @@ sources:
             - name: ship_cost
               description: costo de embarque
 
+models:
+  - name: int_sales_margin
+    tests:
+      - unique:
+          column_name: "(orders_id || '-' || products_id)"
+      - not_null:
+          column_name: orders_id
+      - not_null:
+          column_name: products_id
+      - not_null:
+          column_name: margin
+      - not_null:
+          column_name: purchase_cost
+      - not_null:
+          column_name: date_date
+      - not_null:
+          column_name: revenue
+      - not_null:
+          column_name: quantity
+  - name: int_orders_margin
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name: orders_id 
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: purchase_cost 
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: quantity 
+  - name: int_orders_operational
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name: orders_id 
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: purchase_cost 
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: quantity 
+      - not_null:
+          column_name: operational_margin
+  - name: finance_days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+          column_name: date_date 
+      - not_null:
+          column_name: nb_transactions 
+      - not_null:
+          column_name: revenue 
+      - not_null:
+          column_name: average_basket
+      - not_null:
+          column_name: margin 
+      - not_null:
+          column_name: operational_margin
