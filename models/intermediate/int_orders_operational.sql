@@ -1,7 +1,7 @@
 WITH source AS (
     SELECT *
     FROM
-        {{ ref("int_sales_margin") }} AS sales
+        {{ ref("int_orders_margin") }} AS sales
     JOIN
         {{ ref("stg_raw__ship") }} AS product
     USING(orders_id)

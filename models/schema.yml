@@ -49,4 +49,4 @@ sources:
               description: costo de registro
             - name: ship_cost
               description: costo de embarque
-      
+
